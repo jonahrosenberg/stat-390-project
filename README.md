@@ -19,3 +19,13 @@ Below is a description of the core directories and configuration files in this r
 
 ## Tech Stack
 This project is developed entirely in **Python**. It relies on standard data science libraries for preprocessing, building the manual baseline models, and constructing the automated research workflow.
+
+## Experiment Log
+
+Track the performance of manual baseline models against the automated research runs below:
+
+| Model Type | Creator (User / Autoresearch) | Runtime (s) | ROC AUC | Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| Logistic Regression | User |3.2949 seconds |0.9197 | Baseline with minimal preprocessing. Max iterations set to 1000. |
+| | | | | |
+| | | | | |
