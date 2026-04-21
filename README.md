@@ -14,20 +14,8 @@ Below is a description of the core directories and configuration files in this r
 * **`memos/`**: Contains project documentation, analytical notes, and progress reports regarding data insights and model performance.
 * **`model-fits/`**: Stores serialized versions of trained models, evaluation metrics, and performance plots.
 * **`scripts/`**: The primary source code directory containing Python scripts for data preprocessing, feature engineering, model training, and evaluation.
-* **`.venv/`**: The Python virtual environment containing all isolated project dependencies.
 * **`.gitignore`**: Specifies untracked files and directories to ignore in Git version control.
 * **`README.md`**: The primary documentation file for the project (this document).
 
 ## Tech Stack
 This project is developed entirely in **Python**. It relies on standard data science libraries for preprocessing, building the manual baseline models, and constructing the automated research workflow.
-
-## Getting Started
-
-### 1. Environment Setup
-Activate the local virtual environment to ensure you are using the correct isolated Python dependencies:
-```bash
-# On Windows
-.venv\Scripts\activate
-
-# On macOS/Linux
-source .venv/bin/activate
