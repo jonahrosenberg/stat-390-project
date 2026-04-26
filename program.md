@@ -2,41 +2,56 @@
 
 ## Objective
 
-Minimize **validation RMSE** on the California Housing regression task.
+Minimize validation error on the airline customer satisfaction task by
+improving classification performance on the `satisfaction` target.
+
+Primary metric: **validation ROC AUC** (higher is better)  
+Secondary metric: **validation accuracy**
+
+## Dataset
+
+- Training data: `data/train.csv`
+- Holdout test data: `data/test.csv`
+- Target column: `satisfaction`
+- Positive class: `satisfied`
+
+The train and test files include mixed numeric and categorical features.
+Typical preprocessing will involve imputing missing values and encoding
+categorical columns before fitting a classifier.
 
 ## Rules
 
-1. You may **ONLY** modify `model.py`
-2. `prepare.py` and `run.py` are **FROZEN** — do not touch them
-3. `build_model()` must return an sklearn-compatible estimator (Pipeline preferred)
-4. Training + evaluation must complete in **under 60 seconds** on CPU
-5. No additional data sources or external downloads
+1. The agent should primarily modify `model.py`
+2. `build_model()` must return an sklearn-compatible classifier or pipeline
+3. The model must predict the `satisfaction` label
+4. Use only local data from the `data/` folder
+5. Prefer reproducible models and set `random_state=42` where applicable
+6. Keep training practical for a classroom demo on CPU
 
 ## Workflow
 
-```
-1. Read current model.py
-2. Propose a modification
+```text
+1. Read the current model in model.py
+2. Propose one modeling change
 3. Edit model.py
-4. Run:  python run.py "description of change"
-5. Check val_rmse in output
-6. If improved:  git add model.py && git commit -m "feat: <description>"
-7. If worse:     git checkout model.py   (revert)
-8. Repeat from step 1
+4. Run the experiment script for a labeled trial
+5. Compare validation ROC AUC against the current best
+6. If improved: keep the change and note the new best result
+7. If worse: revert model.py to the previous version
+8. Repeat with a new idea
 ```
 
-## Ideas to explore
+## Good Search Directions
 
-- Different regressors: Ridge, Lasso, ElasticNet, SVR
-- Ensemble methods: RandomForest, GradientBoosting, HistGradientBoosting
-- Feature engineering: PolynomialFeatures, interaction terms
-- Preprocessing: RobustScaler, QuantileTransformer
-- Target transform: TransformedTargetRegressor with log
-- Hyperparameter tuning within the pipeline
+- Logistic regression with stronger or weaker regularization
+- Class weighting if the target is imbalanced
+- Random forest or gradient boosting classifiers
+- HistGradientBoosting with tuned depth, learning rate, and iterations
+- Preprocessing changes such as different imputers or scaling choices
 
-## What NOT to do
+## What Not to Do
 
-- Do not modify `prepare.py` (data split, metric)
-- Do not add new files or dependencies
-- Do not hard-code validation data into the model
-- Do not change the function signature of `build_model()`
+- Do not hard-code answers from the validation or test set
+- Do not add external data sources
+- Do not change the `build_model()` function signature
+- Do not assume the target is already numeric
