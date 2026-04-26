@@ -1,3 +1,9 @@
 experiment	val_accuracy	val_roc_auc	status	description
-9a51b5c	0.874789	0.929468	baseline	autoresearch loop #1 baseline logistic regression
-9a51b5c	0.953948	0.991958	keep	autoresearch loop #2 random forest n=300 depth=12 leaf=2 single-thread
+exp-001	0.874789	0.929468	baseline	baseline: LogisticRegression
+exp-002	0.869063	0.929408	discard	LogisticRegression(class_weight='balanced')
+exp-003	0.874934	0.929468	discard	LogisticRegression(C=0.5)
+exp-004	0.953948	0.991958	keep	RandomForest(n=300, depth=12, leaf=2)
+exp-005	0.963621	0.994165	keep	RandomForest(n=500, full depth) -- risky
+exp-006	0.956306	0.992432	discard	ExtraTrees(n=400, depth=18)
+exp-007	0.952264	0.990908	discard	GradientBoosting(n=250, depth=3)
+exp-008	0.963236	0.993444	discard	ExtraTrees(n=600, full depth)

@@ -101,6 +101,9 @@ def log_result(experiment_id, val_accuracy, val_roc_auc, status, description):
 
 def plot_results(save_path="performance.png"):
     """Plot validation accuracy and ROC AUC over experiments from results.tsv."""
+    import matplotlib
+
+    matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
     if not os.path.exists(RESULTS_FILE):

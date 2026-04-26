@@ -53,9 +53,7 @@ def build_model():
     return Pipeline([
         ("preprocess", preprocess),
         ("model", RandomForestClassifier(
-            n_estimators=300,
-            max_depth=12,
-            min_samples_leaf=2,
+            n_estimators=500,
             random_state=42,
             n_jobs=1,
         )),
