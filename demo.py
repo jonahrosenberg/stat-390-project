@@ -1,9 +1,8 @@
 """
-Demo: simulate an AutoResearch agent loop for customer satisfaction.
+Demo: simulate an AutoResearch agent loop for customer satisfaction with 8 iterations.
 
-This script demonstrates the keep/discard workflow on the airline
-customer satisfaction dataset:
-  1. Run a baseline classifier
+This script demonstrates the full keep/discard workflow:
+  1. Run baseline model
   2. Try modifications one by one
   3. Keep improvements, discard regressions
   4. Plot the trajectory
@@ -12,134 +11,87 @@ Usage: python demo.py
 """
 import os
 import time
-
-from sklearn.compose import ColumnTransformer
-from sklearn.ensemble import RandomForestClassifier, HistGradientBoostingClassifier
-from sklearn.impute import SimpleImputer
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
-
-from prepare import (
-    RESULTS_FILE,
-    evaluate,
-    load_data,
-    log_result,
-    plot_results,
+import numpy as np
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+from sklearn.ensemble import (
+    RandomForestRegressor,
+    GradientBoostingRegressor,
+    HistGradientBoostingRegressor,
 )
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, PolynomialFeatures
+from sklearn.compose import TransformedTargetRegressor
+
+from prepare import load_data, evaluate, log_result, plot_results, RESULTS_FILE
 
 
-def make_preprocessor():
-    """Build a reusable preprocessing pipeline for mixed-type tabular data."""
-    numeric_features = [
-        "Age",
-        "Flight Distance",
-        "Inflight wifi service",
-        "Departure/Arrival time convenient",
-        "Ease of Online booking",
-        "Gate location",
-        "Food and drink",
-        "Online boarding",
-        "Seat comfort",
-        "Inflight entertainment",
-        "On-board service",
-        "Leg room service",
-        "Baggage handling",
-        "Checkin service",
-        "Inflight service",
-        "Cleanliness",
-        "Departure Delay in Minutes",
-        "Arrival Delay in Minutes",
-    ]
-    categorical_features = [
-        "Gender",
-        "Customer Type",
-        "Type of Travel",
-        "Class",
-    ]
-
-    numeric_pipeline = Pipeline([
-        ("imputer", SimpleImputer(strategy="median")),
-        ("scaler", StandardScaler()),
-    ])
-    categorical_pipeline = Pipeline([
-        ("imputer", SimpleImputer(strategy="most_frequent")),
-        ("onehot", OneHotEncoder(handle_unknown="ignore", sparse_output=False)),
-    ])
-
-    return ColumnTransformer([
-        ("num", numeric_pipeline, numeric_features),
-        ("cat", categorical_pipeline, categorical_features),
-    ])
-
-
-# Each "iteration" is a model the agent might try.
+# ── Each "iteration" is a model the agent might try ────────
 ITERATIONS = [
     {
         "id": 1,
-        "description": "baseline: LogisticRegression",
+        "description": "baseline: LinearRegression",
         "model": Pipeline([
-            ("preprocess", make_preprocessor()),
-            ("model", LogisticRegression(max_iter=1000, random_state=42)),
+            ("scaler", StandardScaler()),
+            ("model", LinearRegression()),
         ]),
     },
     {
         "id": 2,
-        "description": "LogisticRegression(class_weight='balanced')",
+        "description": "Ridge(alpha=1.0)",
         "model": Pipeline([
-            ("preprocess", make_preprocessor()),
-            ("model", LogisticRegression(
-                max_iter=1000,
-                class_weight="balanced",
-                random_state=42,
-            )),
+            ("scaler", StandardScaler()),
+            ("model", Ridge(alpha=1.0)),
         ]),
     },
     {
         "id": 3,
-        "description": "LogisticRegression(C=0.5)",
+        "description": "Lasso(alpha=0.01)",
         "model": Pipeline([
-            ("preprocess", make_preprocessor()),
-            ("model", LogisticRegression(max_iter=1000, C=0.5, random_state=42)),
+            ("scaler", StandardScaler()),
+            ("model", Lasso(alpha=0.01)),
         ]),
     },
     {
         "id": 4,
-        "description": "RandomForest(n=300, depth=12)",
+        "description": "PolyFeatures(2) + Ridge",
         "model": Pipeline([
-            ("preprocess", make_preprocessor()),
-            ("model", RandomForestClassifier(
-                n_estimators=300,
-                max_depth=12,
-                min_samples_leaf=2,
-                random_state=42,
-                n_jobs=-1,
-            )),
+            ("scaler", StandardScaler()),
+            ("poly", PolynomialFeatures(degree=2, interaction_only=True)),
+            ("model", Ridge(alpha=1.0)),
         ]),
     },
     {
         "id": 5,
-        "description": "RandomForest(n=500, full depth) -- risky",
+        "description": "PolyFeatures(3) + Ridge -- overshoot",
         "model": Pipeline([
-            ("preprocess", make_preprocessor()),
-            ("model", RandomForestClassifier(
-                n_estimators=500,
-                random_state=42,
-                n_jobs=-1,
-            )),
+            ("scaler", StandardScaler()),
+            ("poly", PolynomialFeatures(degree=3)),
+            ("model", Ridge(alpha=0.1)),
         ]),
     },
     {
         "id": 6,
-        "description": "HistGradientBoosting(max_iter=250, depth=6)",
+        "description": "RandomForest(n=100)",
         "model": Pipeline([
-            ("preprocess", make_preprocessor()),
-            ("model", HistGradientBoostingClassifier(
-                max_iter=250,
-                max_depth=6,
-                learning_rate=0.08,
-                min_samples_leaf=20,
-                random_state=42,
+            ("model", RandomForestRegressor(n_estimators=100, random_state=42, n_jobs=-1)),
+        ]),
+    },
+    {
+        "id": 7,
+        "description": "GradientBoosting(n=200)",
+        "model": Pipeline([
+            ("model", GradientBoostingRegressor(
+                n_estimators=200, max_depth=5, learning_rate=0.1, random_state=42
+            )),
+        ]),
+    },
+    {
+        "id": 8,
+        "description": "HistGBT(n=300, tuned)",
+        "model": Pipeline([
+            ("model", HistGradientBoostingRegressor(
+                max_iter=300, max_depth=8, learning_rate=0.08,
+                min_samples_leaf=20, random_state=42
             )),
         ]),
     },
@@ -147,59 +99,66 @@ ITERATIONS = [
 
 
 def main():
+    # Clean previous results
     if os.path.exists(RESULTS_FILE):
         os.remove(RESULTS_FILE)
         print(f"Cleared previous {RESULTS_FILE}\n")
 
+    # Load data once
     X_train, y_train, X_val, y_val, feature_names = load_data()
-    print("Dataset: Airline Passenger Satisfaction")
+    print(f"Dataset: Airline Passenger Satisfaction")
     print(f"  Train: {X_train.shape[0]} samples, {X_train.shape[1]} features")
     print(f"  Val:   {X_val.shape[0]} samples")
     print(f"  Features: {list(feature_names)}")
     print(f"{'=' * 70}\n")
 
-    best_auc = -float("inf")
+    best_rmse = float("inf")
 
-    for iteration in ITERATIONS:
-        exp_id = iteration["id"]
-        desc = iteration["description"]
-        model = iteration["model"]
+    for it in ITERATIONS:
+        exp_id = it["id"]
+        desc = it["description"]
+        model = it["model"]
 
-        print(f"-- Experiment {exp_id}: {desc}")
+        print(f"── Experiment {exp_id}: {desc}")
 
+        # Train
         t0 = time.time()
         model.fit(X_train, y_train)
         train_time = time.time() - t0
 
-        val_accuracy, val_roc_auc = evaluate(model, X_val, y_val)
+        # Evaluate
+        val_rmse, val_r2 = evaluate(model, X_val, y_val)
 
+        # Keep / discard decision
         if exp_id == 1:
             status = "baseline"
-            best_auc = val_roc_auc
+            best_rmse = val_rmse
             decision_msg = "BASELINE established"
-        elif val_roc_auc > best_auc:
+        elif val_rmse < best_rmse:
             status = "keep"
-            improvement = (val_roc_auc - best_auc) * 100
-            decision_msg = f"KEEP  (improved AUC by {improvement:.2f} points)"
-            best_auc = val_roc_auc
+            improvement = (best_rmse - val_rmse) / best_rmse * 100
+            decision_msg = f"KEEP  (improved {improvement:.1f}% over best)"
+            best_rmse = val_rmse
         else:
             status = "discard"
-            regression = (best_auc - val_roc_auc) * 100
-            decision_msg = f"DISCARD (AUC dropped {regression:.2f} points)"
+            regression = (val_rmse - best_rmse) / best_rmse * 100
+            decision_msg = f"DISCARD (regressed {regression:.1f}% vs best)"
 
-        log_result(f"exp-{exp_id:03d}", val_accuracy, val_roc_auc, status, desc)
+        # Log
+        log_result(f"exp-{exp_id:03d}", val_rmse, val_r2, status, desc)
 
-        print(
-            f"   Accuracy: {val_accuracy:.6f}  |  ROC AUC: {val_roc_auc:.4f}  |  Time: {train_time:.2f}s"
-        )
+        # Print
+        print(f"   RMSE:  {val_rmse:.6f}  |  R²: {val_r2:.4f}  |  Time: {train_time:.2f}s")
         print(f"   >>> {decision_msg}")
         print()
 
+    # Summary
     print(f"{'=' * 70}")
-    print(f"Best ROC AUC achieved: {best_auc:.6f}")
-    print(f"Results saved to:      {RESULTS_FILE}")
+    print(f"Best RMSE achieved: {best_rmse:.6f}")
+    print(f"Results saved to:   {RESULTS_FILE}")
     print()
 
+    # Plot
     plot_results("performance.png")
     print("\nDone. Open performance.png to see the trajectory.")
 
