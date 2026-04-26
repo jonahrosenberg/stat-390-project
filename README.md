@@ -23,19 +23,19 @@ Below is a description of the core directories and configuration files in this r
 
 Track the performance of manual baseline models against the automated research runs below. We use `ROC AUC` as the primary model-selection metric throughout autoresearch; `accuracy` is included as a secondary metric for easier side-by-side viewing.
 
-| Model Type | Creator (User / Autoresearch) | Autoresearch Run # | Runtime (s) | ROC AUC | Accuracy | Notes |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| Logistic Regression | User | | 3.2949 seconds |0.9197 | NA* | Baseline with minimal preprocessing. Max iterations set to 1000. |
-| Logistic Regression | Autoresearch | 1| 0.31 seconds |0.9295 | NA* | Iteration 1 baseline via `run.py`; used updated classification scaffold on `data/train.csv` with one-hot encoding and median/mode imputation. |
-| Random Forest | Autoresearch |1| 13.27 seconds |0.9920 | NA* | Iteration 2 kept. Switched `model.py` to `RandomForestClassifier(n_estimators=300, max_depth=12, min_samples_leaf=2)` and adjusted to single-thread execution because sandboxed multiprocessing was blocked. |
-| Logistic Regression | Autoresearch |2| 0.24 seconds |0.9295 | 0.8748 | 8-iteration run exp-001 baseline from `demo.py`. |
-| Logistic Regression Balanced | Autoresearch |2| 0.24 seconds |0.9294 | 0.8691 | 8-iteration run exp-002 discarded. `class_weight='balanced'` slightly reduced ROC AUC. |
-| Logistic Regression C=0.5 | Autoresearch |2|0.23 seconds |0.9295 | 0.8749 | 8-iteration run exp-003 discarded. Essentially tied baseline on ROC AUC. |
-| Random Forest | Autoresearch |2|15.27 seconds |0.9920 | 0.9539 | 8-iteration run exp-004 kept. `n_estimators=300`, `max_depth=12`, `min_samples_leaf=2`, `n_jobs=1`. |
-| Random Forest Full Depth | Autoresearch |2|30.38 seconds |0.9942 | 0.9636 | 8-iteration run exp-005 kept and became best overall. `n_estimators=500`, full depth, single-threaded for sandbox safety. |
-| Extra Trees | Autoresearch |2|15.57 seconds |0.9924 | 0.9563 | 8-iteration run exp-006 discarded. Strong result but below best random forest. |
-| Gradient Boosting | Autoresearch |2|27.41 seconds |0.9909 | 0.9523 | 8-iteration run exp-007 discarded. Lower ROC AUC than the current best. |
-| Extra Trees Full Depth | Autoresearch |2|27.25 seconds |0.9934 | 0.9632 | 8-iteration run exp-008 discarded. Close, but still below exp-005. |
+| Model Type | Creator (User / Autoresearch) | Autoresearch Run # | Runtime (s) | ROC AUC | Accuracy | Preserved/Deleted | Notes |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Logistic Regression | User | | 3.2949 seconds |0.9197 | NA* | Preserved | Baseline with minimal preprocessing. Max iterations set to 1000. |
+| Logistic Regression | Autoresearch | 1| 0.31 seconds |0.9295 | NA* | Preserved | Iteration 1 baseline via `run.py`; used updated classification scaffold on `data/train.csv` with one-hot encoding and median/mode imputation. |
+| Random Forest | Autoresearch |1| 13.27 seconds |0.9920 | NA* | Preserved | Iteration 2 kept. Switched `model.py` to `RandomForestClassifier(n_estimators=300, max_depth=12, min_samples_leaf=2)` and adjusted to single-thread execution because sandboxed multiprocessing was blocked. |
+| Logistic Regression | Autoresearch |2| 0.24 seconds |0.9295 | 0.8748 | Preserved | 8-iteration run exp-001 baseline from `demo.py`. |
+| Logistic Regression Balanced | Autoresearch |2| 0.24 seconds |0.9294 | 0.8691 | Deleted | 8-iteration run exp-002 discarded. `class_weight='balanced'` slightly reduced ROC AUC. |
+| Logistic Regression C=0.5 | Autoresearch |2|0.23 seconds |0.9295 | 0.8749 | Deleted | 8-iteration run exp-003 discarded. Essentially tied baseline on ROC AUC. |
+| Random Forest | Autoresearch |2|15.27 seconds |0.9920 | 0.9539 | Preserved | 8-iteration run exp-004 kept. `n_estimators=300`, `max_depth=12`, `min_samples_leaf=2`, `n_jobs=1`. |
+| Random Forest Full Depth | Autoresearch |2|30.38 seconds |0.9942 | 0.9636 | Preserved | 8-iteration run exp-005 kept and became best overall. `n_estimators=500`, full depth, single-threaded for sandbox safety. |
+| Extra Trees | Autoresearch |2|15.57 seconds |0.9924 | 0.9563 | Deleted | 8-iteration run exp-006 discarded. Strong result but below best random forest. |
+| Gradient Boosting | Autoresearch |2|27.41 seconds |0.9909 | 0.9523 | Deleted | 8-iteration run exp-007 discarded. Lower ROC AUC than the current best. |
+| Extra Trees Full Depth | Autoresearch |2|27.25 seconds |0.9934 | 0.9632 | Deleted | 8-iteration run exp-008 discarded. Close, but still below exp-005. |
 
 \* Accuracy values for the first three logged rows were not preserved because this column was added after those earlier runs had already been documented.
 
