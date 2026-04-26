@@ -15,5 +15,5 @@ Track the performance of manual baseline models against the automated research r
 | Model Type | Creator (User / Autoresearch) | Runtime (s) | ROC AUC | Notes |
 | :--- | :--- | :--- | :--- | :--- |
 | Logistic Regression | User |3.2949 seconds |0.9197 | Baseline with minimal preprocessing. Max iterations set to 1000. |
-| | | | | |
-| | | | | |
+| Logistic Regression | Autoresearch |0.31 seconds |0.9295 | Iteration 1 baseline via `run.py`; used updated classification scaffold on `data/train.csv` with one-hot encoding and median/mode imputation. |
+| Random Forest | Autoresearch |13.27 seconds |0.9920 | Iteration 2 kept. Switched `model.py` to `RandomForestClassifier(n_estimators=300, max_depth=12, min_samples_leaf=2)` and adjusted to single-thread execution because sandboxed multiprocessing was blocked. |

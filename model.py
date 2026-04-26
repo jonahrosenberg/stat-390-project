@@ -4,8 +4,8 @@ Define the model pipeline for airline customer satisfaction classification.
 The function build_model() must return an sklearn-compatible estimator.
 """
 from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.impute import SimpleImputer
-from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
@@ -52,8 +52,11 @@ def build_model():
 
     return Pipeline([
         ("preprocess", preprocess),
-        ("model", LogisticRegression(
-            max_iter=1000,
+        ("model", RandomForestClassifier(
+            n_estimators=300,
+            max_depth=12,
+            min_samples_leaf=2,
             random_state=42,
+            n_jobs=1,
         )),
     ])

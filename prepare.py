@@ -8,7 +8,6 @@ from pathlib import Path
 import csv
 import os
 
-import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.metrics import accuracy_score, roc_auc_score
 from sklearn.model_selection import train_test_split
@@ -102,6 +101,8 @@ def log_result(experiment_id, val_accuracy, val_roc_auc, status, description):
 
 def plot_results(save_path="performance.png"):
     """Plot validation accuracy and ROC AUC over experiments from results.tsv."""
+    import matplotlib.pyplot as plt
+
     if not os.path.exists(RESULTS_FILE):
         print("No results.tsv found. Run some experiments first.")
         return

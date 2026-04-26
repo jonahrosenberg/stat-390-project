@@ -1,0 +1,3 @@
+experiment	val_accuracy	val_roc_auc	status	description
+9a51b5c	0.874789	0.929468	baseline	autoresearch loop #1 baseline logistic regression
+9a51b5c	0.953948	0.991958	keep	autoresearch loop #2 random forest n=300 depth=12 leaf=2 single-thread
