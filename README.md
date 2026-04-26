@@ -12,19 +12,19 @@ Below is a description of the core directories and configuration files in this r
 
 Track the performance of manual baseline models against the automated research runs below:
 
-| Model Type | Creator (User / Autoresearch) | Runtime (s) | ROC AUC | Notes |
-| :--- | :--- | :--- | :--- | :--- |
-| Logistic Regression | User |3.2949 seconds |0.9197 | Baseline with minimal preprocessing. Max iterations set to 1000. |
-| Logistic Regression | Autoresearch |0.31 seconds |0.9295 | Iteration 1 baseline via `run.py`; used updated classification scaffold on `data/train.csv` with one-hot encoding and median/mode imputation. |
-| Random Forest | Autoresearch |13.27 seconds |0.9920 | Iteration 2 kept. Switched `model.py` to `RandomForestClassifier(n_estimators=300, max_depth=12, min_samples_leaf=2)` and adjusted to single-thread execution because sandboxed multiprocessing was blocked. |
-| Logistic Regression | Autoresearch Demo |0.24 seconds |0.9295 | 8-iteration run exp-001 baseline from `demo.py`. Accuracy 0.8748. |
-| Logistic Regression Balanced | Autoresearch Demo |0.24 seconds |0.9294 | 8-iteration run exp-002 discarded. `class_weight='balanced'` slightly reduced ROC AUC. |
-| Logistic Regression C=0.5 | Autoresearch Demo |0.23 seconds |0.9295 | 8-iteration run exp-003 discarded. Essentially tied baseline on ROC AUC. |
-| Random Forest | Autoresearch Demo |15.27 seconds |0.9920 | 8-iteration run exp-004 kept. `n_estimators=300`, `max_depth=12`, `min_samples_leaf=2`, `n_jobs=1`. |
-| Random Forest Full Depth | Autoresearch Demo |30.38 seconds |0.9942 | 8-iteration run exp-005 kept and became best overall. `n_estimators=500`, full depth, single-threaded for sandbox safety. |
-| Extra Trees | Autoresearch Demo |15.57 seconds |0.9924 | 8-iteration run exp-006 discarded. Strong result but below best random forest. |
-| Gradient Boosting | Autoresearch Demo |27.41 seconds |0.9909 | 8-iteration run exp-007 discarded. Lower ROC AUC than the current best. |
-| Extra Trees Full Depth | Autoresearch Demo |27.25 seconds |0.9934 | 8-iteration run exp-008 discarded. Close, but still below exp-005. |
+| Model Type | Creator (User / Autoresearch) | Autoresearch Run # | Runtime (s) | ROC AUC | Notes |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Logistic Regression | User | | 3.2949 seconds |0.9197 | Baseline with minimal preprocessing. Max iterations set to 1000. |
+| Logistic Regression | Autoresearch | 1| 0.31 seconds |0.9295 | Iteration 1 baseline via `run.py`; used updated classification scaffold on `data/train.csv` with one-hot encoding and median/mode imputation. |
+| Random Forest | Autoresearch |1| 13.27 seconds |0.9920 | Iteration 2 kept. Switched `model.py` to `RandomForestClassifier(n_estimators=300, max_depth=12, min_samples_leaf=2)` and adjusted to single-thread execution because sandboxed multiprocessing was blocked. |
+| Logistic Regression | Autoresearch Demo |2| 0.24 seconds |0.9295 | 8-iteration run exp-001 baseline from `demo.py`. Accuracy 0.8748. |
+| Logistic Regression Balanced | Autoresearch Demo |2| 0.24 seconds |0.9294 | 8-iteration run exp-002 discarded. `class_weight='balanced'` slightly reduced ROC AUC. |
+| Logistic Regression C=0.5 | Autoresearch Demo |2|0.23 seconds |0.9295 | 8-iteration run exp-003 discarded. Essentially tied baseline on ROC AUC. |
+| Random Forest | Autoresearch Demo |2|15.27 seconds |0.9920 | 8-iteration run exp-004 kept. `n_estimators=300`, `max_depth=12`, `min_samples_leaf=2`, `n_jobs=1`. |
+| Random Forest Full Depth | Autoresearch Demo |2|30.38 seconds |0.9942 | 8-iteration run exp-005 kept and became best overall. `n_estimators=500`, full depth, single-threaded for sandbox safety. |
+| Extra Trees | Autoresearch Demo |2|15.57 seconds |0.9924 | 8-iteration run exp-006 discarded. Strong result but below best random forest. |
+| Gradient Boosting | Autoresearch Demo |2|27.41 seconds |0.9909 | 8-iteration run exp-007 discarded. Lower ROC AUC than the current best. |
+| Extra Trees Full Depth | Autoresearch Demo |2|27.25 seconds |0.9934 | 8-iteration run exp-008 discarded. Close, but still below exp-005. |
 
 ## Latest Performance Plot
 
