@@ -11,3 +11,6 @@ a54f69b	3	0.963621	0.994165	baseline	autoresearch run 3 iteration 1 baseline ran
 a54f69b	3	0.963428	0.994047	discard	autoresearch run 3 iteration 2 random forest n=500 min_samples_leaf=2
 a54f69b	3	0.963188	0.994080	discard	autoresearch run 3 iteration 3 random forest n=500 balanced_subsample
 a54f69b	3	0.963957	0.994366	keep	autoresearch run 3 iteration 4 random forest n=500 criterion=log_loss
+02ccc99	4	0.963957	0.994366	baseline	autoresearch run 4 iteration 1 baseline random forest criterion=log_loss
+02ccc99	4	0.963717	0.994328	discard	autoresearch run 4 iteration 2 engineered aggregate service and delay features
+02ccc99	4	0.963572	0.994302	discard	autoresearch run 4 iteration 3 engineered service plus delay and traveler flags

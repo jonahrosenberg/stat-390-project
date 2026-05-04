@@ -38,6 +38,9 @@ Track the performance of manual baseline models against the automated research r
 | Random Forest Full Depth + Leaf 2 | Autoresearch |3|26.45 seconds |0.9940 | 0.9634 | Deleted | Iteration 2 discarded. Adding `min_samples_leaf=2` slightly reduced ROC AUC relative to the run baseline. |
 | Random Forest Balanced Subsample | Autoresearch |3|32.29 seconds |0.9941 | 0.9632 | Deleted | Iteration 3 discarded. `class_weight='balanced_subsample'` did not beat the baseline ROC AUC. |
 | Random Forest Log Loss | Autoresearch |3|28.63 seconds |0.9944 | 0.9640 | Preserved | Iteration 4 kept and became the new best model. Switched the forest criterion to `log_loss`. |
+| Random Forest Log Loss | Autoresearch |4|26.97 seconds |0.9944 | 0.9640 | Preserved | 3-iteration run baseline using the current preserved best `RandomForestClassifier(criterion='log_loss', n_estimators=500, n_jobs=1)`. |
+| Random Forest + Engineered Aggregate Features | Autoresearch |4|29.48 seconds |0.9943 | 0.9637 | Deleted | Iteration 2 discarded. Added aggregate service and delay features in preprocessing, but ROC AUC stayed below the run baseline. |
+| Random Forest + Aggregate Features and Flags | Autoresearch |4|28.19 seconds |0.9943 | 0.9636 | Deleted | Iteration 3 discarded. Added delay and traveler-profile flags on top of engineered aggregates, but still did not beat the baseline ROC AUC. |
 
 \* Accuracy values for the first three logged rows were not preserved because this column was added after those earlier runs had already been documented.
 
