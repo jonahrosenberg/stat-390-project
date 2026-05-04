@@ -24,7 +24,14 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-from prepare import RESULTS_FILE, evaluate, load_data, log_result, plot_results
+from prepare import (
+    RESULTS_FILE,
+    evaluate,
+    get_next_autoresearch_run,
+    load_data,
+    log_result,
+    plot_results,
+)
 
 
 def make_preprocessor():
@@ -169,9 +176,8 @@ ITERATIONS = [
 
 
 def main():
-    if os.path.exists(RESULTS_FILE):
-        os.remove(RESULTS_FILE)
-        print(f"Cleared previous {RESULTS_FILE}\n")
+    autoresearch_run = get_next_autoresearch_run()
+    print(f"Appending to {RESULTS_FILE} as autoresearch run #{autoresearch_run}\n")
 
     X_train, y_train, X_val, y_val, feature_names = load_data()
     print("Dataset: Airline Passenger Satisfaction")
@@ -209,7 +215,14 @@ def main():
             regression = (best_auc - val_roc_auc) * 100
             decision_msg = f"DISCARD (AUC dropped {regression:.2f} points)"
 
-        log_result(f"exp-{exp_id:03d}", val_accuracy, val_roc_auc, status, desc)
+        log_result(
+            f"exp-{exp_id:03d}",
+            val_accuracy,
+            val_roc_auc,
+            status,
+            desc,
+            autoresearch_run=autoresearch_run,
+        )
 
         print(
             f"   Accuracy: {val_accuracy:.6f}  |  ROC AUC: {val_roc_auc:.6f}  |  Time: {train_time:.2f}s"
@@ -219,6 +232,7 @@ def main():
 
     print(f"{'=' * 70}")
     print(f"Best ROC AUC achieved: {best_auc:.6f}")
+    print(f"Autoresearch run #:      {autoresearch_run}")
     print(f"Results saved to:      {RESULTS_FILE}")
     print()
 

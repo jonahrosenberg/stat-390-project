@@ -32,13 +32,16 @@ categorical columns before fitting a classifier.
 
 ```text
 1. Read the current model in model.py
-2. Propose one modeling change
-3. Edit model.py
-4. Run the experiment script for a labeled trial
-5. Compare validation ROC AUC against the current best
-6. If improved: keep the change and note the new best result
-7. If worse: revert model.py to the previous version
-8. Repeat with a new idea
+2. Identify the current or next Autoresearch Run # before starting the run
+3. Do not delete results.tsv between runs; append new experiments on top of the existing file
+4. Ensure each new results.tsv row includes the autoresearch_run value so experiments can be grouped later
+5. Propose one modeling change
+6. Edit model.py
+7. Run the experiment script for a labeled trial
+8. Compare validation ROC AUC against the current best
+9. If improved: keep the change and note the new best result
+10. If worse: revert model.py to the previous version
+11. Repeat with a new idea
 ```
 
 ## Good Search Directions

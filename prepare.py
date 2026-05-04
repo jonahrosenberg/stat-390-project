@@ -23,6 +23,21 @@ TEST_PATH = DATA_DIR / "test.csv"
 DROP_COLUMNS = ["Unnamed: 0", "id"]
 
 
+def get_next_autoresearch_run():
+    """Return the next autoresearch run number based on results.tsv."""
+    if not os.path.exists(RESULTS_FILE):
+        return 1
+
+    max_run = 0
+    with open(RESULTS_FILE, encoding="utf-8") as handle:
+        reader = csv.DictReader(handle, delimiter="\t")
+        for row in reader:
+            run_value = (row.get("autoresearch_run") or "").strip()
+            if run_value.isdigit():
+                max_run = max(max_run, int(run_value))
+    return max_run + 1 if max_run else 1
+
+
 def _encode_target(target_series):
     """Map satisfaction labels to binary values."""
     normalized = target_series.astype(str).str.strip().str.lower()
@@ -81,17 +96,32 @@ def evaluate(model, X_val, y_val):
     return accuracy, roc_auc
 
 
-def log_result(experiment_id, val_accuracy, val_roc_auc, status, description):
+def log_result(
+    experiment_id,
+    val_accuracy,
+    val_roc_auc,
+    status,
+    description,
+    autoresearch_run="",
+):
     """Append one row to results.tsv."""
     file_exists = os.path.exists(RESULTS_FILE)
     with open(RESULTS_FILE, "a", newline="", encoding="utf-8") as handle:
         writer = csv.writer(handle, delimiter="\t")
         if not file_exists:
             writer.writerow(
-                ["experiment", "val_accuracy", "val_roc_auc", "status", "description"]
+                [
+                    "experiment",
+                    "autoresearch_run",
+                    "val_accuracy",
+                    "val_roc_auc",
+                    "status",
+                    "description",
+                ]
             )
         writer.writerow([
             experiment_id,
+            autoresearch_run,
             f"{val_accuracy:.6f}",
             f"{val_roc_auc:.6f}",
             status,

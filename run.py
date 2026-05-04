@@ -9,7 +9,7 @@ Usage:
 import sys
 import time
 import subprocess
-from prepare import load_data, evaluate, log_result
+from prepare import get_next_autoresearch_run, load_data, evaluate, log_result
 
 
 def get_git_hash():
@@ -25,15 +25,24 @@ def get_git_hash():
 def main():
     args = sys.argv[1:]
     status = "keep"
+    autoresearch_run = None
     description_parts = []
-    for a in args:
+    i = 0
+    while i < len(args):
+        a = args[i]
         if a == "--baseline":
             status = "baseline"
         elif a == "--discard":
             status = "discard"
+        elif a == "--run" and i + 1 < len(args):
+            autoresearch_run = args[i + 1]
+            i += 1
         else:
             description_parts.append(a)
+        i += 1
     description = " ".join(description_parts) if description_parts else "experiment"
+    if autoresearch_run is None:
+        autoresearch_run = get_next_autoresearch_run()
 
     X_train, y_train, X_val, y_val, feature_names = load_data()
     print(
@@ -55,7 +64,14 @@ def main():
     print(f"val_roc_auc:  {val_roc_auc:.6f}")
 
     commit = get_git_hash()
-    log_result(commit, val_accuracy, val_roc_auc, status, description)
+    log_result(
+        commit,
+        val_accuracy,
+        val_roc_auc,
+        status,
+        description,
+        autoresearch_run=autoresearch_run,
+    )
     print(f"Result logged to results.tsv (status={status})")
 
 
