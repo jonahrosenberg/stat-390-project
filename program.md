@@ -41,7 +41,10 @@ categorical columns before fitting a classifier.
 8. Compare validation ROC AUC against the current best
 9. If improved: keep the change and note the new best result
 10. If worse: revert model.py to the previous version
-11. Repeat with a new idea
+11. Append the experiment result to the README.md experiment log with the correct run number, metrics, and preserved/deleted outcome
+12. Refresh performance.png after the run so it reflects the latest best-per-run history from results.tsv
+13. Ensure README.md continues to embed the most recent performance.png
+14. Repeat with a new idea
 ```
 
 ## Good Search Directions
