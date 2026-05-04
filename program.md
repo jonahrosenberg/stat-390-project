@@ -51,6 +51,7 @@ categorical columns before fitting a classifier.
 - Random forest or gradient boosting classifiers
 - HistGradientBoosting with tuned depth, learning rate, and iterations
 - Preprocessing changes such as different imputers or scaling choices
+- Added for Run 4: Consider using some preprocessing in model.py to achieve best results. There is a lot of domain knowledge you can use surrounding the variables to make a better prediction.
 
 ## What Not to Do
 
