@@ -53,6 +53,7 @@ def build_model():
     return Pipeline([
         ("preprocess", preprocess),
         ("model", RandomForestClassifier(
+            criterion="log_loss",
             n_estimators=500,
             random_state=42,
             n_jobs=1,

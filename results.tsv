@@ -7,3 +7,7 @@ exp-005	2	0.963621	0.994165	keep	RandomForest(n=500, full depth) -- risky
 exp-006	2	0.956306	0.992432	discard	ExtraTrees(n=400, depth=18)
 exp-007	2	0.952264	0.990908	discard	GradientBoosting(n=250, depth=3)
 exp-008	2	0.963236	0.993444	discard	ExtraTrees(n=600, full depth)
+a54f69b	3	0.963621	0.994165	baseline	autoresearch run 3 iteration 1 baseline random forest n=500 full depth
+a54f69b	3	0.963428	0.994047	discard	autoresearch run 3 iteration 2 random forest n=500 min_samples_leaf=2
+a54f69b	3	0.963188	0.994080	discard	autoresearch run 3 iteration 3 random forest n=500 balanced_subsample
+a54f69b	3	0.963957	0.994366	keep	autoresearch run 3 iteration 4 random forest n=500 criterion=log_loss
