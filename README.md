@@ -17,7 +17,8 @@ Below is a description of the core directories and configuration files in this r
 - `demo.py`: Runs the multi-iteration autoresearch demonstration loop and writes the latest run to `results.tsv`.
 - `program.md`: The high-level instructions and constraints for the autoresearch workflow.
 - `results.tsv`: The latest run-level experiment log used to generate the current performance plot.
-- `performance.png`: The latest visualization generated from `results.tsv`.
+- `performance.png`: Best model from each autoresearch run.
+- `performance_all_models.png`: All logged autoresearch experiments across runs.
 
 ## Experiment Log
 
@@ -44,6 +45,10 @@ Track the performance of manual baseline models against the automated research r
 
 \* Accuracy values for the first three logged rows were not preserved because this column was added after those earlier runs had already been documented.
 
-## Latest Performance Plot
+## Best-Per-Run Performance Plot
 
 ![Latest autoresearch performance](performance.png)
+
+## All-Models Performance Plot
+
+![All autoresearch experiments](performance_all_models.png)

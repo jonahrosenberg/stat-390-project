@@ -43,8 +43,9 @@ categorical columns before fitting a classifier.
 10. If worse: revert model.py to the previous version
 11. Append the experiment result to the README.md experiment log with the correct run number, metrics, and preserved/deleted outcome
 12. Refresh performance.png after the run so it reflects the latest best-per-run history from results.tsv
-13. Ensure README.md continues to embed the most recent performance.png
-14. Repeat with a new idea
+13. Refresh performance_all_models.png after the run so it reflects all logged experiments from results.tsv
+14. Ensure README.md continues to embed the most recent performance.png and performance_all_models.png
+15. Repeat with a new idea
 ```
 
 ## Good Search Directions

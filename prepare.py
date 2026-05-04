@@ -130,55 +130,41 @@ def log_result(
         ])
 
 
-def plot_results(save_path="performance.png"):
-    """Plot the best validation accuracy and ROC AUC from each autoresearch run."""
-    import matplotlib
-
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
-
+def _load_results_rows():
+    """Load experiment rows from results.tsv."""
     if not os.path.exists(RESULTS_FILE):
-        print("No results.tsv found. Run some experiments first.")
-        return
+        return []
 
     rows = []
     with open(RESULTS_FILE, encoding="utf-8") as handle:
         reader = csv.DictReader(handle, delimiter="\t")
         for row in reader:
-            run_value = (row.get("autoresearch_run") or "").strip()
-            if not run_value:
-                continue
             rows.append({
                 "experiment": row["experiment"],
-                "autoresearch_run": run_value,
+                "autoresearch_run": (row.get("autoresearch_run") or "").strip(),
                 "val_accuracy": float(row["val_accuracy"]),
                 "val_roc_auc": float(row["val_roc_auc"]),
                 "status": row["status"],
                 "description": row["description"],
             })
+    return rows
 
-    if not rows:
-        print("No autoresearch_run-tagged rows found in results.tsv.")
-        return
 
-    frame = pd.DataFrame(rows)
-    frame["_run_sort"] = pd.to_numeric(frame["autoresearch_run"], errors="coerce")
-    frame = frame.sort_values(
-        by=["_run_sort", "val_roc_auc", "val_accuracy"],
-        ascending=[True, False, False],
-        na_position="last",
-    )
-    best_per_run = frame.drop_duplicates(subset=["autoresearch_run"], keep="first")
-    best_per_run = best_per_run.sort_values(
-        by=["_run_sort", "autoresearch_run"],
-        na_position="last",
-    )
+def _save_performance_plot(
+    x_positions,
+    x_labels,
+    accuracies,
+    aucs,
+    statuses,
+    title,
+    xlabel,
+    save_path,
+):
+    """Render and save a two-panel performance plot."""
+    import matplotlib
 
-    run_labels = best_per_run["autoresearch_run"].tolist()
-    accuracies = best_per_run["val_accuracy"].tolist()
-    aucs = best_per_run["val_roc_auc"].tolist()
-    statuses = best_per_run["status"].tolist()
-    positions = list(range(len(run_labels)))
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
 
     color_map = {"keep": "#2ecc71", "discard": "#e74c3c", "baseline": "#3498db"}
     colors = [color_map.get(status, "#95a5a6") for status in statuses]
@@ -186,7 +172,7 @@ def plot_results(save_path="performance.png"):
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(11, 8), sharex=True)
 
     ax1.scatter(
-        positions,
+        x_positions,
         accuracies,
         c=colors,
         s=80,
@@ -194,7 +180,7 @@ def plot_results(save_path="performance.png"):
         edgecolors="white",
         linewidth=0.5,
     )
-    ax1.plot(positions, accuracies, "k--", alpha=0.2, zorder=2)
+    ax1.plot(x_positions, accuracies, "k--", alpha=0.2, zorder=2)
 
     best_accuracy = []
     running_best_accuracy = -float("inf")
@@ -202,22 +188,18 @@ def plot_results(save_path="performance.png"):
         running_best_accuracy = max(running_best_accuracy, score)
         best_accuracy.append(running_best_accuracy)
     ax1.plot(
-        positions,
+        x_positions,
         best_accuracy,
         color="#2ecc71",
         linewidth=2.5,
         label="Best so far",
     )
     ax1.set_ylabel("Validation Accuracy", fontsize=12)
-    ax1.set_title(
-        "Best Model From Each Autoresearch Run",
-        fontsize=14,
-        fontweight="bold",
-    )
+    ax1.set_title(title, fontsize=14, fontweight="bold")
     ax1.grid(True, alpha=0.3)
 
     ax2.scatter(
-        positions,
+        x_positions,
         aucs,
         c=colors,
         s=80,
@@ -225,7 +207,7 @@ def plot_results(save_path="performance.png"):
         edgecolors="white",
         linewidth=0.5,
     )
-    ax2.plot(positions, aucs, "k--", alpha=0.2, zorder=2)
+    ax2.plot(x_positions, aucs, "k--", alpha=0.2, zorder=2)
 
     best_auc = []
     running_best_auc = -float("inf")
@@ -233,20 +215,21 @@ def plot_results(save_path="performance.png"):
         running_best_auc = max(running_best_auc, score)
         best_auc.append(running_best_auc)
     ax2.plot(
-        positions,
+        x_positions,
         best_auc,
         color="#2ecc71",
         linewidth=2.5,
         label="Best so far",
     )
-    ax2.set_xlabel("Autoresearch Run #", fontsize=12)
+    ax2.set_xlabel(xlabel, fontsize=12)
     ax2.set_ylabel("Validation ROC AUC", fontsize=12)
     ax2.legend(fontsize=10)
     ax2.grid(True, alpha=0.3)
 
-    run_tick_labels = [f"Run {run}" for run in run_labels]
-    ax2.set_xticks(positions)
-    ax2.set_xticklabels(run_tick_labels, rotation=0, ha="center", fontsize=9)
+    ax2.set_xticks(x_positions)
+    rotation = 0 if len(x_labels) <= 8 else 45
+    alignment = "center" if rotation == 0 else "right"
+    ax2.set_xticklabels(x_labels, rotation=rotation, ha=alignment, fontsize=9 if rotation == 0 else 8)
 
     from matplotlib.lines import Line2D
 
@@ -263,5 +246,83 @@ def plot_results(save_path="performance.png"):
     print(f"Saved {save_path}")
 
 
+def plot_results(save_path="performance.png"):
+    """Plot the best validation accuracy and ROC AUC from each autoresearch run."""
+    rows = _load_results_rows()
+    if not rows:
+        print("No results.tsv found. Run some experiments first.")
+        return
+
+    frame = pd.DataFrame([row for row in rows if row["autoresearch_run"]])
+    if frame.empty:
+        print("No autoresearch_run-tagged rows found in results.tsv.")
+        return
+
+    frame["_run_sort"] = pd.to_numeric(frame["autoresearch_run"], errors="coerce")
+    frame = frame.sort_values(
+        by=["_run_sort", "val_roc_auc", "val_accuracy"],
+        ascending=[True, False, False],
+        na_position="last",
+    )
+    best_per_run = frame.drop_duplicates(subset=["autoresearch_run"], keep="first")
+    best_per_run = best_per_run.sort_values(
+        by=["_run_sort", "autoresearch_run"],
+        na_position="last",
+    )
+
+    run_labels = best_per_run["autoresearch_run"].tolist()
+    positions = list(range(len(run_labels)))
+    _save_performance_plot(
+        x_positions=positions,
+        x_labels=[f"Run {run}" for run in run_labels],
+        accuracies=best_per_run["val_accuracy"].tolist(),
+        aucs=best_per_run["val_roc_auc"].tolist(),
+        statuses=best_per_run["status"].tolist(),
+        title="Best Model From Each Autoresearch Run",
+        xlabel="Autoresearch Run #",
+        save_path=save_path,
+    )
+
+
+def plot_all_results(save_path="performance_all_models.png"):
+    """Plot validation accuracy and ROC AUC for every experiment row."""
+    rows = _load_results_rows()
+    if not rows:
+        print("No results.tsv found. Run some experiments first.")
+        return
+
+    frame = pd.DataFrame(rows)
+    if frame.empty:
+        print("No experiment rows found in results.tsv.")
+        return
+
+    frame["_run_sort"] = pd.to_numeric(frame["autoresearch_run"], errors="coerce")
+    frame = frame.sort_values(
+        by=["_run_sort", "experiment", "description"],
+        na_position="last",
+    ).reset_index(drop=True)
+    labels = []
+    for _, row in frame.iterrows():
+        run_value = row["autoresearch_run"] or "?"
+        labels.append(f"R{run_value}:{row['experiment']}")
+
+    _save_performance_plot(
+        x_positions=list(range(len(frame))),
+        x_labels=labels,
+        accuracies=frame["val_accuracy"].tolist(),
+        aucs=frame["val_roc_auc"].tolist(),
+        statuses=frame["status"].tolist(),
+        title="All Autoresearch Experiments",
+        xlabel="Experiment",
+        save_path=save_path,
+    )
+
+
+def generate_all_plots():
+    """Generate both the best-per-run and all-experiments performance plots."""
+    plot_results("performance.png")
+    plot_all_results("performance_all_models.png")
+
+
 if __name__ == "__main__":
-    plot_results()
+    generate_all_plots()
