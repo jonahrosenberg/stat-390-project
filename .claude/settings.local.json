@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\jonah\\\\Downloads\\\\stat-390\\\\stat-390-project\" -Force)",
+      "Bash(Select-Object Name, Mode)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "powershell",
+            "command": "$d = [Console]::In.ReadToEnd() | ConvertFrom-Json; $f = [IO.Path]::GetFileName($d.tool_input.file_path); if ($f -in 'prepare.py','run.py','demo.py') { @{hookSpecificOutput=@{hookEventName='PreToolUse';permissionDecision='deny';permissionDecisionReason='This file is frozen. Only model.py should be edited during autoresearch.'}} | ConvertTo-Json -Depth 3 -Compress }",
+            "statusMessage": "Checking file edit permissions..."
+          }
+        ]
+      }
+    ]
+  }
+}
