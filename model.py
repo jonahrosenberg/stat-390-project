@@ -54,7 +54,7 @@ def build_model():
         ("preprocess", preprocess),
         ("model", RandomForestClassifier(
             criterion="log_loss",
-            n_estimators=500,
+            n_estimators=1000,
             random_state=42,
             n_jobs=1,
         )),
