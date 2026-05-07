@@ -14,3 +14,7 @@ a54f69b	3	0.963957	0.994366	keep	autoresearch run 3 iteration 4 random forest n=
 02ccc99	4	0.963957	0.994366	baseline	autoresearch run 4 iteration 1 baseline random forest criterion=log_loss
 02ccc99	4	0.963717	0.994328	discard	autoresearch run 4 iteration 2 engineered aggregate service and delay features
 02ccc99	4	0.963572	0.994302	discard	autoresearch run 4 iteration 3 engineered service plus delay and traveler flags
+fc4a81b	5	0.963957	0.994366	baseline	autoresearch run 5 iteration 1 baseline random forest criterion=log_loss
+fc4a81b	5	0.964054	0.994399	keep	autoresearch run 5 iteration 2 random forest criterion=log_loss n=800
+fc4a81b	5	0.963572	0.994101	discard	autoresearch run 5 iteration 3 random forest n=800 ordinal categorical encoding
+fc4a81b	5	0.963909	0.994414	keep	autoresearch run 5 iteration 4 random forest criterion=log_loss n=1000

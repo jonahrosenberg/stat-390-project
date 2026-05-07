@@ -42,6 +42,10 @@ Track the performance of manual baseline models against the automated research r
 | Random Forest Log Loss | Autoresearch |4|26.97 seconds |0.9944 | 0.9640 | Preserved | 3-iteration run baseline using the current preserved best `RandomForestClassifier(criterion='log_loss', n_estimators=500, n_jobs=1)`. |
 | Random Forest + Engineered Aggregate Features | Autoresearch |4|29.48 seconds |0.9943 | 0.9637 | Deleted | Iteration 2 discarded. Added aggregate service and delay features in preprocessing, but ROC AUC stayed below the run baseline. |
 | Random Forest + Aggregate Features and Flags | Autoresearch |4|28.19 seconds |0.9943 | 0.9636 | Deleted | Iteration 3 discarded. Added delay and traveler-profile flags on top of engineered aggregates, but still did not beat the baseline ROC AUC. |
+| Random Forest Log Loss | Autoresearch |5|27.26 seconds |0.9944 | 0.9640 | Preserved | 4-iteration run baseline using the current preserved best `RandomForestClassifier(criterion='log_loss', n_estimators=500, n_jobs=1)`. |
+| Random Forest Log Loss n=800 | Autoresearch |5|45.04 seconds |0.9944 | 0.9641 | Preserved | Iteration 2 kept. Increasing to 800 trees slightly improved ROC AUC and became the new best model. |
+| Random Forest n=800 Ordinal Categories | Autoresearch |5|46.89 seconds |0.9941 | 0.9636 | Deleted | Iteration 3 discarded. Replacing one-hot categorical encoding with ordinal encoding reduced ROC AUC. |
+| Random Forest Log Loss n=1000 | Autoresearch |5|52.05 seconds |0.9944 | 0.9639 | Preserved | Iteration 4 kept and became the new best model. Increasing to 1000 trees slightly improved ROC AUC over the 800-tree forest. |
 
 \* Accuracy values for the first three logged rows were not preserved because this column was added after those earlier runs had already been documented.
 
