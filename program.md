@@ -62,4 +62,4 @@ categorical columns before fitting a classifier.
 - Do not hard-code answers from the validation or test set
 - Do not add external data sources
 - Do not change the `build_model()` function signature
-- Do not assume the target is already numeric
+- Do not assume the target is already numeric.
