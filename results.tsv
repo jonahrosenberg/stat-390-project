@@ -18,3 +18,6 @@ fc4a81b	5	0.963957	0.994366	baseline	autoresearch run 5 iteration 1 baseline ran
 fc4a81b	5	0.964054	0.994399	keep	autoresearch run 5 iteration 2 random forest criterion=log_loss n=800
 fc4a81b	5	0.963572	0.994101	discard	autoresearch run 5 iteration 3 random forest n=800 ordinal categorical encoding
 fc4a81b	5	0.963909	0.994414	keep	autoresearch run 5 iteration 4 random forest criterion=log_loss n=1000
+900ed4a	6	0.963909	0.994414	baseline	autoresearch run 6 iteration 1 baseline random forest criterion=log_loss n=1000
+900ed4a	6	0.963909	0.994414	discard	autoresearch run 6 iteration 2 cv random forest tune n_estimators and min_samples_split
+900ed4a	6	0.966171	0.995174	keep	autoresearch run 6 iteration 3 cv random forest tune max_features

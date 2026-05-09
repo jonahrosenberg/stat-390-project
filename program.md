@@ -56,10 +56,11 @@ categorical columns before fitting a classifier.
 - HistGradientBoosting with tuned depth, learning rate, and iterations
 - Preprocessing changes such as different imputers or scaling choices
 - Added for Run 4: Consider using some preprocessing in model.py to achieve best results. There is a lot of domain knowledge you can use surrounding the variables to make a better prediction.
+- Added for Run 6: Consider using cross validation in the model.py for better hyperparameter tuning. This should allow for more hypertuning. I understand that this will add run time as a result, that is okay. Please perform all of this cross validation in model.py and never in any other script.
 
 ## What Not to Do
 
 - Do not hard-code answers from the validation or test set
 - Do not add external data sources
 - Do not change the `build_model()` function signature
-- Do not assume the target is already numeric.
+- Do not assume the target is already numeric

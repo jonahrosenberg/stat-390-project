@@ -23,6 +23,7 @@ Below is a description of the core directories and configuration files in this r
 ## Errors Encountered
 
 - May 9, 2026: Five weeks into the project, we realized that the autoresearch agent was not actually using both of the resplit `test.csv` and `train.csv` files. Instead, it was only using `train.csv` and then creating a new 80/20 train/validation split from that file. Because this was discovered so late, we will continue the project using 80% of the available resplit data for the sake of consistency across the experiment log.
+- May 9, 2026: During Run 6, a cross-validated `HistGradientBoostingClassifier` attempt failed before logging a result because scikit-learn/joblib hit a Windows `PermissionError: [WinError 5] Access is denied` while creating internal worker pipes. The failed attempt was not counted as a completed experiment row, and the run continued with cross-validated random forest tuning inside `model.py`.
 
 ## Experiment Log
 
@@ -50,6 +51,9 @@ Track the performance of manual baseline models against the automated research r
 | Random Forest Log Loss n=800 | Autoresearch |5|45.04 seconds |0.9944 | 0.9641 | Preserved | Iteration 2 kept. Increasing to 800 trees slightly improved ROC AUC and became the new best model. |
 | Random Forest n=800 Ordinal Categories | Autoresearch |5|46.89 seconds |0.9941 | 0.9636 | Deleted | Iteration 3 discarded. Replacing one-hot categorical encoding with ordinal encoding reduced ROC AUC. |
 | Random Forest Log Loss n=1000 | Autoresearch |5|52.05 seconds |0.9944 | 0.9639 | Preserved | Iteration 4 kept and became the new best model. Increasing to 1000 trees slightly improved ROC AUC over the 800-tree forest. |
+| Random Forest Log Loss n=1000 | Autoresearch |6|52.75 seconds |0.9944 | 0.9639 | Preserved | Run 6 baseline using the current best `RandomForestClassifier(criterion='log_loss', n_estimators=1000, n_jobs=1)`. |
+| Cross-Validated Random Forest n/ Split Tuning | Autoresearch |6|501.39 seconds |0.9944 | 0.9639 | Deleted | Iteration 2 discarded. `GridSearchCV` tuned `n_estimators` and `min_samples_split`, but the selected model only tied the run baseline. |
+| Cross-Validated Random Forest Max Features | Autoresearch |6|6708.60 seconds |0.9952 | 0.9662 | Preserved | Iteration 3 kept and became the new best model. `GridSearchCV` tuned `max_features` between `'sqrt'` and `0.7` using 3-fold ROC AUC selection inside `model.py`. |
 
 \* Accuracy values for the first three logged rows were not preserved because this column was added after those earlier runs had already been documented.
 
