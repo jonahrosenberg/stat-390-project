@@ -59,6 +59,9 @@ Track the performance of manual baseline models against the automated research r
 | Gradient Boosting lr=0.035 depth=4 | Autoresearch |7|77.04 seconds |0.9938 | 0.9611 | Deleted | Iteration 3 discarded. Lower learning rate and deeper trees improved over iteration 2 but still did not beat the baseline ROC AUC. |
 | Gradient Boosting lr=0.025 depth=5 | Autoresearch |7|108.85 seconds |0.9947 | 0.9638 | Deleted | Iteration 4 discarded. The strongest gradient boosting variant remained below the cross-validated random forest baseline. |
 | Random Forest Log Loss n=1200 max_features=0.7 | Autoresearch |7|155.54 seconds |0.9952 | 0.9661 | Deleted | Iteration 5 discarded. A direct 1200-tree forest nearly tied the baseline but was slightly lower on ROC AUC. |
+| Cross-Validated Random Forest Max Features | Autoresearch |8|567.34 seconds |0.9952 | 0.9662 | Preserved | Run 8 baseline using the current best `GridSearchCV` random forest tuned over `max_features`. |
+| Cross-Validated Gradient Boosting lr/depth/estimators | Autoresearch |8|1575.20 seconds |0.9949 | 0.9642 | Deleted | Iteration 2 discarded. `GridSearchCV` tuned learning rate, depth, and estimator count for `GradientBoostingClassifier`, but ROC AUC remained below the run baseline. |
+| Cross-Validated Gradient Boosting Shrinkage | Autoresearch |8|2210.87 seconds |0.9949 | 0.9637 | Deleted | Iteration 3 discarded. A lower-learning-rate, depth-5 grid slightly improved ROC AUC over iteration 2 but still did not beat the random forest baseline. |
 
 \* Accuracy values for the first three logged rows were not preserved because this column was added after those earlier runs had already been documented.
 

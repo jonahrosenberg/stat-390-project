@@ -26,3 +26,6 @@ adb9434	7	0.955296	0.992062	discard	autoresearch run 7 iteration 2 gradient boos
 adb9434	7	0.961118	0.993800	discard	autoresearch run 7 iteration 3 gradient boosting lr=0.035 depth=4 subsample=0.85
 adb9434	7	0.963813	0.994664	discard	autoresearch run 7 iteration 4 gradient boosting lr=0.025 depth=5 subsample=0.8
 adb9434	7	0.966123	0.995166	discard	autoresearch run 7 iteration 5 random forest log_loss n=1200 max_features=0.7
+2fcf275	8	0.966171	0.995174	baseline	autoresearch run 8 iteration 1 baseline current cv random forest max_features
+2fcf275	8	0.964150	0.994895	discard	autoresearch run 8 iteration 2 cv gradient boosting tune lr depth estimators
+2fcf275	8	0.963717	0.994916	discard	autoresearch run 8 iteration 3 cv gradient boosting shrinkage depth=5 subsample
