@@ -21,3 +21,8 @@ fc4a81b	5	0.963909	0.994414	keep	autoresearch run 5 iteration 4 random forest cr
 900ed4a	6	0.963909	0.994414	baseline	autoresearch run 6 iteration 1 baseline random forest criterion=log_loss n=1000
 900ed4a	6	0.963909	0.994414	discard	autoresearch run 6 iteration 2 cv random forest tune n_estimators and min_samples_split
 900ed4a	6	0.966171	0.995174	keep	autoresearch run 6 iteration 3 cv random forest tune max_features
+adb9434	7	0.966171	0.995174	baseline	autoresearch run 7 iteration 1 baseline current cv random forest max_features
+adb9434	7	0.955296	0.992062	discard	autoresearch run 7 iteration 2 gradient boosting lr=0.06 depth=3 subsample=0.9
+adb9434	7	0.961118	0.993800	discard	autoresearch run 7 iteration 3 gradient boosting lr=0.035 depth=4 subsample=0.85
+adb9434	7	0.963813	0.994664	discard	autoresearch run 7 iteration 4 gradient boosting lr=0.025 depth=5 subsample=0.8
+adb9434	7	0.966123	0.995166	discard	autoresearch run 7 iteration 5 random forest log_loss n=1200 max_features=0.7

@@ -54,6 +54,11 @@ Track the performance of manual baseline models against the automated research r
 | Random Forest Log Loss n=1000 | Autoresearch |6|52.75 seconds |0.9944 | 0.9639 | Preserved | Run 6 baseline using the current best `RandomForestClassifier(criterion='log_loss', n_estimators=1000, n_jobs=1)`. |
 | Cross-Validated Random Forest n/ Split Tuning | Autoresearch |6|501.39 seconds |0.9944 | 0.9639 | Deleted | Iteration 2 discarded. `GridSearchCV` tuned `n_estimators` and `min_samples_split`, but the selected model only tied the run baseline. |
 | Cross-Validated Random Forest Max Features | Autoresearch |6|6708.60 seconds** |0.9952 | 0.9662 | Preserved | Iteration 3 kept and became the new best model. `GridSearchCV` tuned `max_features` between `'sqrt'` and `0.7` using 3-fold ROC AUC selection inside `model.py`. |
+| Cross-Validated Random Forest Max Features | Autoresearch |7|514.07 seconds |0.9952 | 0.9662 | Preserved | Run 7 baseline using the current best `GridSearchCV` random forest tuned over `max_features`. |
+| Gradient Boosting lr=0.06 depth=3 | Autoresearch |7|44.64 seconds |0.9921 | 0.9553 | Deleted | Iteration 2 discarded. Tried a single-process `GradientBoostingClassifier` with 450 estimators and subsampling, but it was below the run baseline. |
+| Gradient Boosting lr=0.035 depth=4 | Autoresearch |7|77.04 seconds |0.9938 | 0.9611 | Deleted | Iteration 3 discarded. Lower learning rate and deeper trees improved over iteration 2 but still did not beat the baseline ROC AUC. |
+| Gradient Boosting lr=0.025 depth=5 | Autoresearch |7|108.85 seconds |0.9947 | 0.9638 | Deleted | Iteration 4 discarded. The strongest gradient boosting variant remained below the cross-validated random forest baseline. |
+| Random Forest Log Loss n=1200 max_features=0.7 | Autoresearch |7|155.54 seconds |0.9952 | 0.9661 | Deleted | Iteration 5 discarded. A direct 1200-tree forest nearly tied the baseline but was slightly lower on ROC AUC. |
 
 \* Accuracy values for the first three logged rows were not preserved because this column was added after those earlier runs had already been documented.
 
