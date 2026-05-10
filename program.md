@@ -63,6 +63,7 @@ categorical columns before fitting a classifier.
 - Added for Run 6: Consider using cross validation in the model.py for better hyperparameter tuning. This should allow for more hypertuning. I understand that this will add run time as a result, that is okay. Please perform all of this cross validation in model.py and never in any other script.
 - Added for Run 7: Consider using a gradient boosting tree for the first three tries of the autoresearch run. Try changing the learn rate and max depth if we are not improving at first.
 - Added for Run 9: Lower the cross-validation threshold to a smaller amount so that the models take less time. Instead, prioritize hyperparameter tuning to ensure we're finding optimal values. Search in the areas surrounding the parameters we know work, and search for marginal gains over sweeping improvements that come from large changes.
+- Added for Run 10: It has become clear that a random forest model is a superior choice. Let's try to add hyperparameters to the model. There is so much to tune, and we do not just have to accept the default values. Please tune 5-10 parameters per iteration in a space filling grid (or other grid of your choosing).
 
 ## What Not to Do
 

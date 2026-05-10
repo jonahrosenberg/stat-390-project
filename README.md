@@ -68,6 +68,17 @@ Track the performance of manual baseline models against the automated research r
 | Random Forest n=1000 max_features=0.75 | Autoresearch |9|165.54 seconds |0.9951 | 0.9656 | Deleted | Iteration 4 discarded. Nudging `max_features` higher reduced validation ROC AUC. |
 | Random Forest n=1000 max_features=0.7 split=3 | Autoresearch |9|149.17 seconds |0.9952 | 0.9657 | Preserved | Iteration 5 kept and became the new best model. Added `min_samples_split=3` to the direct 1000-tree `log_loss` random forest with `max_features=0.7`. |
 | Random Forest n=1000 max_features=0.7 split=4 | Autoresearch |9|148.77 seconds |0.9952 | 0.9660 | Deleted | Iteration 6 discarded. Increasing `min_samples_split` to 4 reduced ROC AUC below the iteration 5 model. |
+| Random Forest n=1000 max_features=0.7 split=3 | Autoresearch |10|154.97 seconds |0.9952 | 0.9657 | Preserved | Run 10 baseline using the current best direct `log_loss` random forest from Run 9. |
+| Random Forest n=1000 max_features=0.7 split=2 | Autoresearch |10|149.94 seconds |0.9952 | 0.9662 | Deleted | Iteration 2 discarded. Returning `min_samples_split` to the default improved accuracy but reduced ROC AUC. |
+| Random Forest n=1000 max_features=0.7 split=5 | Autoresearch |10|150.14 seconds |0.9952 | 0.9663 | Deleted | Iteration 3 discarded. A more conservative split threshold nearly tied the baseline but did not improve ROC AUC. |
+| Random Forest n=1100 max_features=0.68 split=3 | Autoresearch |10|166.73 seconds |0.9952 | 0.9660 | Deleted | Iteration 4 discarded. Increasing trees while lowering `max_features` reduced ROC AUC. |
+| Random Forest n=1100 max_features=0.72 split=3 | Autoresearch |10|171.39 seconds |0.9952 | 0.9660 | Preserved | Iteration 5 kept. Increasing `max_features` to 0.72 and `n_estimators` to 1100 slightly improved ROC AUC. |
+| Random Forest n=1100 max_features=0.72 split=4 | Autoresearch |10|170.90 seconds |0.9952 | 0.9663 | Deleted | Iteration 6 discarded. Raising `min_samples_split` to 4 improved accuracy but lowered ROC AUC. |
+| Random Forest n=1100 max_features=0.72 split=3 leaf=2 | Autoresearch |10|171.43 seconds |0.9951 | 0.9660 | Deleted | Iteration 7 discarded. Adding `min_samples_leaf=2` over-regularized the forest for ROC AUC. |
+| Random Forest n=1100 max_features=0.72 split=3 sample=0.9 | Autoresearch |10|161.95 seconds |0.9952 | 0.9662 | Deleted | Iteration 8 discarded. Limiting each tree to 90% bootstrap samples reduced ROC AUC. |
+| Random Forest n=1100 max_features=0.72 split=3 balanced | Autoresearch |10|185.61 seconds |0.9952 | 0.9655 | Deleted | Iteration 9 discarded. `class_weight='balanced_subsample'` did not improve probability ranking. |
+| Random Forest n=1100 max_features=0.72 split=3 ccp_alpha=1e-7 | Autoresearch |10|171.27 seconds |0.9952 | 0.9660 | Deleted | Iteration 10 discarded. Tiny cost-complexity pruning tied to displayed precision but did not clearly beat the kept model. |
+| Random Forest n=1200 max_features=0.72 split=3 min_impurity=1e-8 | Autoresearch |10|189.97 seconds |0.9952 | 0.9661 | Preserved | Iteration 11 kept and became the new best model. Increased to 1200 trees and added a tiny `min_impurity_decrease` threshold. |
 
 \* Accuracy values for the first three logged rows were not preserved because this column was added after those earlier runs had already been documented.
 

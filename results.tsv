@@ -35,3 +35,14 @@ adb9434	7	0.966123	0.995166	discard	autoresearch run 7 iteration 5 random forest
 51bdb05	9	0.965642	0.995107	discard	autoresearch run 9 iteration 4 random forest n=1000 max_features=0.75
 51bdb05	9	0.965690	0.995194	keep	autoresearch run 9 iteration 5 random forest n=1000 max_features=0.7 min_samples_split=3
 51bdb05	9	0.966027	0.995152	discard	autoresearch run 9 iteration 6 random forest n=1000 max_features=0.7 min_samples_split=4
+d1a404f	10	0.965690	0.995194	baseline	autoresearch run 10 iteration 1 baseline random forest n=1000 max_features=0.7 min_samples_split=3
+d1a404f	10	0.966171	0.995174	discard	autoresearch run 10 iteration 2 random forest n=1000 max_features=0.7 min_samples_split=2
+d1a404f	10	0.966267	0.995192	discard	autoresearch run 10 iteration 3 random forest n=1000 max_features=0.7 min_samples_split=5
+d1a404f	10	0.965979	0.995188	discard	autoresearch run 10 iteration 4 random forest n=1100 max_features=0.68 min_samples_split=3
+d1a404f	10	0.966027	0.995198	keep	autoresearch run 10 iteration 5 random forest n=1100 max_features=0.72 min_samples_split=3
+d1a404f	10	0.966315	0.995178	discard	autoresearch run 10 iteration 6 random forest n=1100 max_features=0.72 min_samples_split=4
+d1a404f	10	0.965979	0.995130	discard	autoresearch run 10 iteration 7 random forest n=1100 max_features=0.72 split=3 leaf=2
+d1a404f	10	0.966171	0.995153	discard	autoresearch run 10 iteration 8 random forest n=1100 max_features=0.72 split=3 max_samples=0.9
+d1a404f	10	0.965545	0.995167	discard	autoresearch run 10 iteration 9 random forest n=1100 max_features=0.72 split=3 balanced_subsample
+d1a404f	10	0.966027	0.995198	discard	autoresearch run 10 iteration 10 random forest n=1100 max_features=0.72 split=3 ccp_alpha=1e-7
+d1a404f	10	0.966123	0.995215	keep	autoresearch run 10 iteration 11 random forest n=1200 max_features=0.72 split=3 min_impurity_decrease=1e-8

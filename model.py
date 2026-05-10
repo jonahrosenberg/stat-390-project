@@ -54,9 +54,10 @@ def build_model():
         ("preprocess", preprocess),
         ("model", RandomForestClassifier(
             criterion="log_loss",
-            n_estimators=1000,
-            max_features=0.7,
+            n_estimators=1200,
+            max_features=0.72,
             min_samples_split=3,
+            min_impurity_decrease=0.00000001,
             random_state=42,
             n_jobs=1,
         )),
