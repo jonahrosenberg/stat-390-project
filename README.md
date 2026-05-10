@@ -53,9 +53,11 @@ Track the performance of manual baseline models against the automated research r
 | Random Forest Log Loss n=1000 | Autoresearch |5|52.05 seconds |0.9944 | 0.9639 | Preserved | Iteration 4 kept and became the new best model. Increasing to 1000 trees slightly improved ROC AUC over the 800-tree forest. |
 | Random Forest Log Loss n=1000 | Autoresearch |6|52.75 seconds |0.9944 | 0.9639 | Preserved | Run 6 baseline using the current best `RandomForestClassifier(criterion='log_loss', n_estimators=1000, n_jobs=1)`. |
 | Cross-Validated Random Forest n/ Split Tuning | Autoresearch |6|501.39 seconds |0.9944 | 0.9639 | Deleted | Iteration 2 discarded. `GridSearchCV` tuned `n_estimators` and `min_samples_split`, but the selected model only tied the run baseline. |
-| Cross-Validated Random Forest Max Features | Autoresearch |6|6708.60 seconds |0.9952 | 0.9662 | Preserved | Iteration 3 kept and became the new best model. `GridSearchCV` tuned `max_features` between `'sqrt'` and `0.7` using 3-fold ROC AUC selection inside `model.py`. |
+| Cross-Validated Random Forest Max Features | Autoresearch |6|6708.60 seconds** |0.9952 | 0.9662 | Preserved | Iteration 3 kept and became the new best model. `GridSearchCV` tuned `max_features` between `'sqrt'` and `0.7` using 3-fold ROC AUC selection inside `model.py`. |
 
 \* Accuracy values for the first three logged rows were not preserved because this column was added after those earlier runs had already been documented.
+
+\** The 6708.60-second runtime for Autoresearch Run 6 Iteration 3 is inflated because the laptop was closed while the model was running, which paused progress during the elapsed-time measurement.
 
 ## Best-Per-Run Performance Plot
 
