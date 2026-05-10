@@ -6,7 +6,6 @@ The function build_model() must return an sklearn-compatible estimator.
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.impute import SimpleImputer
-from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
@@ -51,23 +50,14 @@ def build_model():
         ]), categorical_features),
     ])
 
-    pipeline = Pipeline([
+    return Pipeline([
         ("preprocess", preprocess),
         ("model", RandomForestClassifier(
             criterion="log_loss",
             n_estimators=1000,
+            max_features=0.7,
+            min_samples_split=3,
             random_state=42,
             n_jobs=1,
         )),
     ])
-
-    return GridSearchCV(
-        estimator=pipeline,
-        param_grid={
-            "model__max_features": ["sqrt", 0.7],
-        },
-        scoring="roc_auc",
-        cv=3,
-        n_jobs=1,
-        refit=True,
-    )

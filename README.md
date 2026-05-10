@@ -62,6 +62,12 @@ Track the performance of manual baseline models against the automated research r
 | Cross-Validated Random Forest Max Features | Autoresearch |8|567.34 seconds |0.9952 | 0.9662 | Preserved | Run 8 baseline using the current best `GridSearchCV` random forest tuned over `max_features`. |
 | Cross-Validated Gradient Boosting lr/depth/estimators | Autoresearch |8|1575.20 seconds |0.9949 | 0.9642 | Deleted | Iteration 2 discarded. `GridSearchCV` tuned learning rate, depth, and estimator count for `GradientBoostingClassifier`, but ROC AUC remained below the run baseline. |
 | Cross-Validated Gradient Boosting Shrinkage | Autoresearch |8|2210.87 seconds |0.9949 | 0.9637 | Deleted | Iteration 3 discarded. A lower-learning-rate, depth-5 grid slightly improved ROC AUC over iteration 2 but still did not beat the random forest baseline. |
+| Cross-Validated Random Forest Max Features | Autoresearch |9|585.10 seconds |0.9952 | 0.9662 | Preserved | Run 9 baseline using the current best `GridSearchCV` random forest tuned over `max_features`; completed just inside the 600-second trial cap. |
+| Random Forest n=1000 max_features=0.65 | Autoresearch |9|144.72 seconds |0.9951 | 0.9656 | Deleted | Iteration 2 discarded. Direct single-model trial lowered the CV search cost but reduced ROC AUC below the run baseline. |
+| Random Forest n=1100 max_features=0.7 | Autoresearch |9|177.57 seconds |0.9952 | 0.9661 | Deleted | Iteration 3 discarded. A direct forest near the known good `max_features=0.7` setting nearly tied the baseline but did not improve ROC AUC. |
+| Random Forest n=1000 max_features=0.75 | Autoresearch |9|165.54 seconds |0.9951 | 0.9656 | Deleted | Iteration 4 discarded. Nudging `max_features` higher reduced validation ROC AUC. |
+| Random Forest n=1000 max_features=0.7 split=3 | Autoresearch |9|149.17 seconds |0.9952 | 0.9657 | Preserved | Iteration 5 kept and became the new best model. Added `min_samples_split=3` to the direct 1000-tree `log_loss` random forest with `max_features=0.7`. |
+| Random Forest n=1000 max_features=0.7 split=4 | Autoresearch |9|148.77 seconds |0.9952 | 0.9660 | Deleted | Iteration 6 discarded. Increasing `min_samples_split` to 4 reduced ROC AUC below the iteration 5 model. |
 
 \* Accuracy values for the first three logged rows were not preserved because this column was added after those earlier runs had already been documented.
 
