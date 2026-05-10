@@ -57,6 +57,7 @@ categorical columns before fitting a classifier.
 - Preprocessing changes such as different imputers or scaling choices
 - Added for Run 4: Consider using some preprocessing in model.py to achieve best results. There is a lot of domain knowledge you can use surrounding the variables to make a better prediction.
 - Added for Run 6: Consider using cross validation in the model.py for better hyperparameter tuning. This should allow for more hypertuning. I understand that this will add run time as a result, that is okay. Please perform all of this cross validation in model.py and never in any other script.
+- Added for Run 7: Consider using a gradient boosting tree for the first three tries of the autoresearch run. Try changing the learn rate and max depth if we are not improving at first.
 
 ## What Not to Do
 
