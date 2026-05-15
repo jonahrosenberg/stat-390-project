@@ -89,6 +89,16 @@ Track the performance of manual baseline models against the automated research r
 | XGBoost Boosted depth=6 n=900 lr=0.03 | Autoresearch |11|7.25 seconds |0.9953 | 0.9651 | Preserved | Iteration 8 kept and became the new best model. Lower learning rate with more estimators improved ROC AUC. |
 | XGBoost Boosted depth=7 n=800 lr=0.03 | Autoresearch |11|7.04 seconds |0.9954 | 0.9653 | Preserved | Iteration 9 kept and became the new best model. A deeper boosted xgboost model produced the strongest validation ROC AUC so far. |
 | XGBoost Boosted depth=7 n=1000 lr=0.025 | Autoresearch |11|8.73 seconds |0.9953 | 0.9654 | Deleted | Iteration 10 discarded. More estimators with a lower learning rate slightly reduced ROC AUC relative to iteration 9. |
+| XGBoost Boosted depth=7 n=800 lr=0.03 | Autoresearch |12|7.02 seconds |0.9954 | 0.9653 | Preserved | Run 12 baseline using the current best xgboost model from Run 11. |
+| XGBoost Broad Tune depth=7 n=950 | Autoresearch |12|9.49 seconds |0.9954 | 0.9650 | Deleted | Iteration 2 discarded. Tuned estimator count, learning rate, row sampling, three column-sampling controls, child weight, gamma, L1/L2 regularization, and histogram bins. |
+| XGBoost Broad Tune depth=8 n=720 | Autoresearch |12|7.16 seconds |0.9954 | 0.9650 | Deleted | Iteration 3 discarded. A deeper exact-depth tree with stronger regularization and lower feature exposure did not improve ROC AUC. |
+| XGBoost Broad Tune depth=6 n=1200 | Autoresearch |12|9.86 seconds |0.9952 | 0.9652 | Deleted | Iteration 4 discarded. Smoother depth-6 boosting with more estimators reduced ROC AUC below the baseline. |
+| XGBoost Lossguide leaves=96 n=850 | Autoresearch |12|9.49 seconds |0.9956 | 0.9665 | Preserved | Iteration 5 kept and became the new best model. Switching to `grow_policy='lossguide'` with explicit leaf control improved both ROC AUC and accuracy. |
+| XGBoost Lossguide leaves=128 n=780 | Autoresearch |12|9.79 seconds |0.9955 | 0.9660 | Deleted | Iteration 6 discarded. Larger leaf capacity with stronger regularization regressed from iteration 5. |
+| XGBoost Lossguide leaves=80 n=1050 | Autoresearch |12|10.22 seconds |0.9956 | 0.9661 | Preserved | Iteration 7 kept and became the new best model. Smaller leaf count with more estimators and gentler shrinkage improved ROC AUC. |
+| XGBoost Lossguide leaves=88 n=980 | Autoresearch |12|9.75 seconds |0.9955 | 0.9660 | Deleted | Iteration 8 discarded. More feature exposure and lower child weight reduced ROC AUC relative to iteration 7. |
+| XGBoost Lossguide leaves=72 n=1100 | Autoresearch |12|10.54 seconds |0.9956 | 0.9659 | Preserved | Iteration 9 kept and became the new best model. A conservative lossguide setup with lower column sampling and stronger regularization produced the best ROC AUC. |
+| XGBoost Lossguide leaves=84 n=950 | Autoresearch |12|10.25 seconds |0.9955 | 0.9660 | Deleted | Iteration 10 discarded. The adjacent lossguide setting regressed from the iteration 9 winner. |
 
 \* Accuracy values for the first three logged rows were not preserved because this column was added after those earlier runs had already been documented.
 
