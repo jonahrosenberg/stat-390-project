@@ -79,6 +79,16 @@ Track the performance of manual baseline models against the automated research r
 | Random Forest n=1100 max_features=0.72 split=3 balanced | Autoresearch |10|185.61 seconds |0.9952 | 0.9655 | Deleted | Iteration 9 discarded. `class_weight='balanced_subsample'` did not improve probability ranking. |
 | Random Forest n=1100 max_features=0.72 split=3 ccp_alpha=1e-7 | Autoresearch |10|171.27 seconds |0.9952 | 0.9660 | Deleted | Iteration 10 discarded. Tiny cost-complexity pruning tied to displayed precision but did not clearly beat the kept model. |
 | Random Forest n=1200 max_features=0.72 split=3 min_impurity=1e-8 | Autoresearch |10|189.97 seconds |0.9952 | 0.9661 | Preserved | Iteration 11 kept and became the new best model. Increased to 1200 trees and added a tiny `min_impurity_decrease` threshold. |
+| Random Forest n=1200 max_features=0.72 split=3 min_impurity=1e-8 | Autoresearch |11|174.07 seconds |0.9952 | 0.9661 | Preserved | Run 11 baseline using the current best random forest from Run 10, as required before xgboost trials. |
+| XGBoost RF-like parallel trees depth=12 | Autoresearch |11|12.64 seconds |0.9926 | 0.9599 | Deleted | Iteration 2 discarded. Used `XGBClassifier` with one boosting round, `num_parallel_tree=1200`, and RF-like `colsample_bynode=0.72`, but ROC AUC was below the baseline. |
+| XGBoost RF-like parallel trees depth=16 | Autoresearch |11|17.65 seconds |0.9936 | 0.9628 | Deleted | Iteration 3 discarded. Increasing depth improved the xgboost RF emulation but remained below the random forest baseline. |
+| XGBoost RF-like parallel trees n=2000 depth=16 | Autoresearch |11|28.86 seconds |0.9936 | 0.9627 | Deleted | Iteration 4 discarded. More parallel trees did not improve ROC AUC over the 1200-tree xgboost RF-like trial. |
+| XGBoost RF-like lossguide leaves=512 | Autoresearch |11|16.79 seconds |0.9936 | 0.9627 | Deleted | Iteration 5 discarded. Lossguide growth with a leaf cap did not close the gap to the random forest baseline. |
+| XGBoost RF-like depth=16 subsample=0.9 | Autoresearch |11|20.35 seconds |0.9936 | 0.9628 | Deleted | Iteration 6 discarded. Row subsampling around the RF-like setup did not improve ROC AUC. |
+| XGBoost Boosted depth=6 n=700 lr=0.04 | Autoresearch |11|5.75 seconds |0.9952 | 0.9649 | Preserved | Iteration 7 kept. Switching from RF emulation to boosted xgboost improved ROC AUC over the Run 11 baseline. |
+| XGBoost Boosted depth=6 n=900 lr=0.03 | Autoresearch |11|7.25 seconds |0.9953 | 0.9651 | Preserved | Iteration 8 kept and became the new best model. Lower learning rate with more estimators improved ROC AUC. |
+| XGBoost Boosted depth=7 n=800 lr=0.03 | Autoresearch |11|7.04 seconds |0.9954 | 0.9653 | Preserved | Iteration 9 kept and became the new best model. A deeper boosted xgboost model produced the strongest validation ROC AUC so far. |
+| XGBoost Boosted depth=7 n=1000 lr=0.025 | Autoresearch |11|8.73 seconds |0.9953 | 0.9654 | Deleted | Iteration 10 discarded. More estimators with a lower learning rate slightly reduced ROC AUC relative to iteration 9. |
 
 \* Accuracy values for the first three logged rows were not preserved because this column was added after those earlier runs had already been documented.
 

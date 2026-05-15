@@ -46,3 +46,13 @@ d1a404f	10	0.966171	0.995153	discard	autoresearch run 10 iteration 8 random fore
 d1a404f	10	0.965545	0.995167	discard	autoresearch run 10 iteration 9 random forest n=1100 max_features=0.72 split=3 balanced_subsample
 d1a404f	10	0.966027	0.995198	discard	autoresearch run 10 iteration 10 random forest n=1100 max_features=0.72 split=3 ccp_alpha=1e-7
 d1a404f	10	0.966123	0.995215	keep	autoresearch run 10 iteration 11 random forest n=1200 max_features=0.72 split=3 min_impurity_decrease=1e-8
+40bd03d	11	0.966123	0.995215	baseline	autoresearch run 11 iteration 1 baseline random forest n=1200 max_features=0.72 split=3 min_impurity_decrease=1e-8
+40bd03d	11	0.959867	0.992599	discard	autoresearch run 11 iteration 2 xgboost gbtree rf-like parallel=1200 depth=12 colsample_bynode=0.72
+40bd03d	11	0.962803	0.993644	discard	autoresearch run 11 iteration 3 xgboost gbtree rf-like parallel=1200 depth=16 colsample_bynode=0.72
+40bd03d	11	0.962706	0.993634	discard	autoresearch run 11 iteration 4 xgboost gbtree rf-like parallel=2000 depth=16 colsample_bynode=0.72
+40bd03d	11	0.962706	0.993599	discard	autoresearch run 11 iteration 5 xgboost rf-like lossguide parallel=1200 leaves=512 colsample_bynode=0.72
+40bd03d	11	0.962754	0.993622	discard	autoresearch run 11 iteration 6 xgboost gbtree rf-like parallel=1200 depth=16 subsample=0.9 colsample_bynode=0.72
+40bd03d	11	0.964872	0.995239	keep	autoresearch run 11 iteration 7 xgboost boosted depth=6 n=700 lr=0.04 subsample=0.9 colsample_bytree=0.85
+40bd03d	11	0.965064	0.995255	keep	autoresearch run 11 iteration 8 xgboost boosted depth=6 n=900 lr=0.03 subsample=0.9 colsample_bytree=0.85
+40bd03d	11	0.965257	0.995400	keep	autoresearch run 11 iteration 9 xgboost boosted depth=7 n=800 lr=0.03 subsample=0.9 colsample_bytree=0.85
+40bd03d	11	0.965353	0.995349	discard	autoresearch run 11 iteration 10 xgboost boosted depth=7 n=1000 lr=0.025 subsample=0.9 colsample_bytree=0.85
